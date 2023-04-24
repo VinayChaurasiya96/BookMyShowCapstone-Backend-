@@ -10,7 +10,7 @@ This is a backend capstone project assignment from Almabetter, it is a ticket bo
 
 https://user-images.githubusercontent.com/80849410/233482880-160385eb-29ff-4ef1-ae13-1193a7a7e8a5.mp4
 
-## `Description`
+## `Descrip`
 
 This project has created individually by me, it has build using MERN technology, in backend i have used `Express Js` for backend server , `MongoDB` for database, `Mongoose` for schema, and in frontend technologies i have used `React` javascript library,`and media query`for designing the responsive UI, `react-testing-library` for testing in frontend and `vercel` for deploying both client and server. Languages used in this project are `HTML`, `CSS`, `JavaScript`, `Node js`. I have also used a `react-skeleton package` for displaying some animation effect in pending status of api response.
 
