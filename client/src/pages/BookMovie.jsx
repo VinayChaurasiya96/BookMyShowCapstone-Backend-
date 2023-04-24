@@ -11,6 +11,7 @@ import LastBooking from "../components/lastBooking";
 import SelectMovie from "../components/SelectMovie";
 import SelectSlot from "../components/SelectSlot";
 import SelectedSeat from "../components/SelectedSeat";
+
 const BookMovie = () => {
   const [lastBooking, setLastBooking] = useState({});
   const [selectedMovie, setSelectedMovie] = useState();
@@ -18,6 +19,11 @@ const BookMovie = () => {
   const [selectedSeats, setSelectedSeats] = useState();
   const [selectedCount, setSelectedCount] = useState(0);
   const [totalData, setTotalData] = useState({});
+
+  // error states
+
+  const [bookMovieError, setBookMovieError] = useState();
+  const [getLastMovieError, setGetLastMovieError] = useState();
 
   // validation states
   const [isMovie, setIsMovie] = useState();
@@ -41,6 +47,7 @@ const BookMovie = () => {
       .catch((error) => {
         //if any error will accours then status will be rejected
         setGetlastMovieStatus("rejected");
+        setBookMovieError(error);
         console.log(error);
       });
   };
@@ -52,6 +59,8 @@ const BookMovie = () => {
     setSelectedSeats();
     document.querySelectorAll("input").forEach((input) => (input.value = 0));
   };
+
+  //here persisting data after refresh page
 
   // here we are using useState hook (didMount) to display last booking details on every render
   useEffect(() => {
@@ -104,6 +113,7 @@ const BookMovie = () => {
       .catch((error) => {
         // if any error will accours then status will be rejected
         setBookMovieStatus("rejected");
+        setGetLastMovieError(error);
         console.log(error);
       });
   };
@@ -142,56 +152,61 @@ const BookMovie = () => {
     // if all validation has sucessfull , then send data to api
     if (validation.isMovie && validation.isSlot && validation.isSeat) {
       sendData(totalData);
+      localStorage.clear();
     }
   };
 
   return (
-    <div>
-      <h2 className="main-title">Book that show !!</h2>
-      <div className="main">
-        <div className="left">
-          {/* movies row section */}
-          <SelectMovie
-            selectedMovie={selectedMovie}
-            movies={movies}
-            setSelectedMovie={setSelectedMovie}
-          />
+    <>
+      <div>
+        <h2 className="main-title">Book that show !!</h2>
+        <div className="main">
+          <div className="left">
+            {/* movies row section */}
+            <SelectMovie
+              selectedMovie={selectedMovie}
+              movies={movies}
+              setSelectedMovie={setSelectedMovie}
+            />
 
-          {isMovie && <p className="err">{isMovie}</p>}
-          {/* slot row section */}
-          <SelectSlot
-            slots={slots}
-            selectedSlot={selectedSlot}
-            setSelectedSlot={setSelectedSlot}
-          />
-          {isSlot && <p className="err">{isSlot}</p>}
+            {isMovie && <p className="err">{isMovie}</p>}
+            {/* slot row section */}
+            <SelectSlot
+              slots={slots}
+              selectedSlot={selectedSlot}
+              setSelectedSlot={setSelectedSlot}
+            />
+            {isSlot && <p className="err">{isSlot}</p>}
 
-          {/* seat row section */}
-          <SelectedSeat
-            seats={seats}
-            selectedSeats={selectedSeats}
-            setSelectedSeats={setSelectedSeats}
-            selectedCount={selectedCount}
-            setSelectedCount={setSelectedCount}
-          />
+            {/* seat row section */}
+            <SelectedSeat
+              seats={seats}
+              selectedSeats={selectedSeats}
+              setSelectedSeats={setSelectedSeats}
+              selectedCount={selectedCount}
+              setSelectedCount={setSelectedCount}
+            />
 
-          {/* book movie button  section */}
-          {isSeat && <p className="err">{isSeat}</p>}
-          <div className="book-button">
-            <button onClick={bookMovie}>Book Now</button>
+            {/* book movie button  section */}
+            {isSeat && <p className="err">{isSeat}</p>}
+            <div className="book-button">
+              <button onClick={bookMovie}>
+                {bookMovieStatus === "pending" ? "Please Wait..." : "Book Now"}
+              </button>
+            </div>
+          </div>
+
+          {/* last booking section */}
+          <div className="right">
+            {/* {status == "pending" && <p>Pending</p>} */}
+            <LastBooking
+              getlastMovieStatus={getlastMovieStatus}
+              lastBooking={lastBooking}
+            />
           </div>
         </div>
-
-        {/* last booking section */}
-        <div className="right">
-          {/* {status == "pending" && <p>Pending</p>} */}
-          <LastBooking
-            getlastMovieStatus={getlastMovieStatus}
-            lastBooking={lastBooking}
-          />
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,7 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 // this component rendering selected slot section
 const SelectSlot = ({slots, selectedSlot, setSelectedSlot}) => {
+  useEffect(() => {
+    const lsSlot = localStorage.getItem("persistSlot");
+    if (lsSlot) {
+      setSelectedSlot(lsSlot);
+    }
+  }, []);
+
   return (
     <div className="slot-row">
       <h3>Select a Time Slot</h3>
@@ -11,7 +18,10 @@ const SelectSlot = ({slots, selectedSlot, setSelectedSlot}) => {
           className={`slot-column ${
             slot == selectedSlot ? "slot-column-selected" : ""
           }`}
-          onClick={() => setSelectedSlot(slot)}
+          onClick={() => {
+            setSelectedSlot(slot);
+            localStorage.setItem("persistSlot", slot);
+          }}
         >
           {slot}
         </div>

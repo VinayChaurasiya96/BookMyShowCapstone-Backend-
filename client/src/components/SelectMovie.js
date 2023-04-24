@@ -1,7 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 //this component rendering selected movie section
-const SelectMovie = ({movies, selectedMovie, setSelectedMovie}) => {
+const SelectMovie = ({
+  movies,
+  selectedMovie,
+
+  setSelectedMovie,
+}) => {
+  useEffect(() => {
+    const lsMovie = localStorage.getItem("persistMovie");
+    if (lsMovie) {
+      setSelectedMovie(lsMovie);
+    }
+  }, []);
+
   return (
     <div className="movie-row">
       <h3>Select A Movie</h3>
@@ -11,7 +23,10 @@ const SelectMovie = ({movies, selectedMovie, setSelectedMovie}) => {
           className={`movie-column ${
             movie == selectedMovie ? "movie-column-selected" : ""
           }`}
-          onClick={() => setSelectedMovie(movie)}
+          onClick={() => {
+            setSelectedMovie(movie);
+            localStorage.setItem("persistMovie", movie);
+          }}
         >
           {movie}
         </div>

@@ -13,6 +13,13 @@ const InputField = ({selected, selectedCount}) => {
     }
   }, [inputValue, selected]);
 
+  useEffect(() => {
+    const lsCount = localStorage.getItem("persistSeatCount");
+    if (lsCount) {
+      setInputValue(lsCount);
+    }
+  }, []);
+
   // this is onchange function to get value of input
   const onChangeHandler = (e) => {
     // here it is validating that value should not greater than twenty, should not less than zero, and length of input should not greater than two
@@ -22,6 +29,7 @@ const InputField = ({selected, selectedCount}) => {
       e.target.value >= 0
     ) {
       setInputValue(e.target.value);
+      localStorage.setItem("persistSeatCount", e.target.value);
       // toast("Wow so easy!");
     } else {
       setInputValue("");

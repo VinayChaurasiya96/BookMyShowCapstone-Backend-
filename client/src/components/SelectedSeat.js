@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import InputField from "./Input";
 
 // this component rendering selected seat section
@@ -6,9 +6,17 @@ const SelectedSeat = ({
   seats,
   selectedSeats,
   setSelectedSeats,
+
   selectedCount,
   setSelectedCount,
 }) => {
+  useEffect(() => {
+    const lsSeat = localStorage.getItem("persistSeat");
+    if (lsSeat) {
+      setSelectedSeats(lsSeat);
+    }
+  }, []);
+
   return (
     <div className="seat-row">
       <h3>Select the seats</h3>
@@ -18,7 +26,10 @@ const SelectedSeat = ({
           className={`seat-column ${
             seat == selectedSeats ? "seat-column-selected" : ""
           }`}
-          onClick={() => setSelectedSeats(seat)}
+          onClick={() => {
+            setSelectedSeats(seat);
+            localStorage.setItem("persistSeat", seat);
+          }}
         >
           Type {seat} <br /> <br />
           {/* here we are calling input component and passing some props */}
