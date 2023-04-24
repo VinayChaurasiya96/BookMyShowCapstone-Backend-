@@ -46,7 +46,7 @@ https://documenter.getpostman.com/view/24770149/2s93Y3vg2t
 
 
 ## `Deploy Link`
- [Flashcard-Generator](https://flashcard-generator-1d2e8.web.app)
+ 
 
 
 
