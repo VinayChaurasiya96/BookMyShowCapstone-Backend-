@@ -28,7 +28,7 @@ const getLastBooking = async (req, res) => {
     }
   } catch (error) {
     res.send(error.message);
-    console.log("something went wrong", error);
+    console.log("something went wrong", error.message);
   }
 };
 
